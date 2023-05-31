@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Build;
+import android.view.WindowManager;
 import com.airbnb.lottie.LottieAnimationView;
 import java.lang.ref.WeakReference;
 
@@ -35,6 +36,7 @@ public class SplashScreen {
           mSplashDialog = new Dialog(activity, themeResId);
           mSplashDialog.setContentView(R.layout.launch_screen);
           mSplashDialog.setCancelable(false);
+          setActivityAndroidP(mSplashDialog);
           LottieAnimationView lottie = (LottieAnimationView) mSplashDialog.findViewById(lottieId);
 
           lottie.addAnimatorListener(new Animator.AnimatorListener() {
@@ -91,8 +93,19 @@ public class SplashScreen {
     });
   }
 
+  private static void setActivityAndroidP(Dialog dialog) {
+    if (Build.VERSION.SDK_INT >= 28) {
+        if (dialog != null && dialog.getWindow() != null) {
+            dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);//全屏显示
+            WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+            lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            dialog.getWindow().setAttributes(lp);
+        }
+    }
+  }
+
   public static void show(final Activity activity, int lottieId) {
-    int resourceId = R.style.SplashScreen_SplashTheme;
+    int resourceId = R.style.SplashScreen_Fullscreen; 
     show(activity, resourceId, lottieId);
   }
 
