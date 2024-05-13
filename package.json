@@ -41,6 +41,6 @@
   "homepage": "https://github.com/HwangTaehyun/react-native-lottie-splash-screen#readme",
   "dependencies": {
     "lottie-ios": "^4.4.3",
-    "lottie-react-native": "^6.7.2",
+    "lottie-react-native": "^6.7.2"
   }
 }
