@@ -5,16 +5,12 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.os.Build;
 import android.view.WindowManager;
+import androidx.fragment.app.FragmentActivity; // Добавлен импорт для FragmentActivity
 import com.airbnb.lottie.LottieAnimationView;
 import java.lang.ref.WeakReference;
 
 /**
  * SplashScreen
- * 启动屏
- * from：http://www.devio.org
- * Author:CrazyCodeBoy
- * GitHub:https://github.com/crazycodeboy
- * Email:crazycodeboy@gmail.com
  */
 public class SplashScreen {
   private static Dialog mSplashDialog;
@@ -23,7 +19,7 @@ public class SplashScreen {
   private static Boolean waiting = false;
 
   /**
-   * 打开启动屏
+   * Показать сплеш-скрин
    */
   public static void show(final Activity activity, final int themeResId, final int lottieId) {
     if (activity == null)
@@ -73,6 +69,9 @@ public class SplashScreen {
     isAnimationFinished = flag;
 
     final Activity _activity = mActivity.get();
+    if (_activity == null) {
+      return; // Добавлена дополнительная проверка на null
+    }
 
     _activity.runOnUiThread(new Runnable() {
       @Override
@@ -84,7 +83,10 @@ public class SplashScreen {
             isDestroyed = _activity.isDestroyed();
           }
 
-          if (!_activity.isFinishing() && !isDestroyed && waiting) {
+          // Проверка, находится ли активность в возобновленном состоянии
+          boolean isActivityResumed = !(_activity instanceof FragmentActivity) || ((FragmentActivity)_activity).isResumed();
+
+          if (!_activity.isFinishing() && !isDestroyed && isActivityResumed && waiting) {
             mSplashDialog.dismiss();
             mSplashDialog = null;
           }
@@ -110,7 +112,7 @@ public class SplashScreen {
   }
 
   /**
-   * 关闭启动屏
+   * Скрыть сплеш-скрин
    */
   public static void hide(Activity activity) {
     if (activity == null) {
@@ -137,7 +139,10 @@ public class SplashScreen {
             isDestroyed = _activity.isDestroyed();
           }
 
-          if (!_activity.isFinishing() && !isDestroyed && isAnimationFinished) {
+          // Проверка, находится ли активность в возобновленном состоянии
+          boolean isActivityResumed = !(_activity instanceof FragmentActivity) || ((FragmentActivity)_activity).isResumed();
+
+          if (!_activity.isFinishing() && !isDestroyed && isActivityResumed && isAnimationFinished) {
             mSplashDialog.dismiss();
             mSplashDialog = null;
           }

@@ -3,6 +3,7 @@ package org.devio.rn.splashscreen;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.module.annotations.ReactModule;  // Добавить для New Architecture
 
 /**
  * SplashScreen
@@ -12,18 +13,20 @@ import com.facebook.react.bridge.ReactMethod;
  * GitHub:https://github.com/crazycodeboy
  * Email:crazycodeboy@gmail.com
  */
+@ReactModule(name = SplashScreenModule.NAME)  // Добавлено для New Architecture
 public class SplashScreenModule extends ReactContextBaseJavaModule {
+  public static final String NAME = "SplashScreen";  // Добавлено для New Architecture
   public SplashScreenModule(ReactApplicationContext reactContext) {
     super(reactContext);
   }
 
   @Override
   public String getName() {
-    return "SplashScreen";
+    return NAME;  // Изменено для соответствия константе
   }
 
   /**
-   * 关闭启动屏
+   * Закрыть сплеш-скрин
    */
   @ReactMethod
   public void hide() {

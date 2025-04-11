@@ -18,12 +18,6 @@ import java.util.List;
  * Email:crazycodeboy@gmail.com
  */
 public class SplashScreenReactPackage implements ReactPackage {
-
-    // Deprecated RN 0.47
-    public List<Class<? extends JavaScriptModule>> createJSModules() {
-        return Collections.emptyList();
-    }
-
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return Collections.emptyList();
