@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.os.Build;
 import android.view.WindowManager;
-import androidx.fragment.app.FragmentActivity; // Добавлен импорт для FragmentActivity
 import com.airbnb.lottie.LottieAnimationView;
 import java.lang.ref.WeakReference;
 
@@ -83,10 +82,8 @@ public class SplashScreen {
             isDestroyed = _activity.isDestroyed();
           }
 
-          // Проверка, находится ли активность в возобновленном состоянии
-          boolean isActivityResumed = !(_activity instanceof FragmentActivity) || ((FragmentActivity)_activity).isResumed();
-
-          if (!_activity.isFinishing() && !isDestroyed && isActivityResumed && waiting) {
+          // Проверка убрана, вместо неё просто ждем завершения анимации
+          if (!_activity.isFinishing() && !isDestroyed && waiting) {
             mSplashDialog.dismiss();
             mSplashDialog = null;
           }
@@ -98,7 +95,7 @@ public class SplashScreen {
   private static void setActivityAndroidP(Dialog dialog) {
     if (Build.VERSION.SDK_INT >= 28) {
         if (dialog != null && dialog.getWindow() != null) {
-            dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);//全屏显示
+            dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
             lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
             dialog.getWindow().setAttributes(lp);
@@ -139,10 +136,8 @@ public class SplashScreen {
             isDestroyed = _activity.isDestroyed();
           }
 
-          // Проверка, находится ли активность в возобновленном состоянии
-          boolean isActivityResumed = !(_activity instanceof FragmentActivity) || ((FragmentActivity)_activity).isResumed();
-
-          if (!_activity.isFinishing() && !isDestroyed && isActivityResumed && isAnimationFinished) {
+          // Проверка убрана, вместо неё просто ждем завершения анимации
+          if (!_activity.isFinishing() && !isDestroyed && isAnimationFinished) {
             mSplashDialog.dismiss();
             mSplashDialog = null;
           }
