@@ -1,5 +1,5 @@
 //  Dynamic.swift
-//  Created by Taehyun Hwang on 2020/10/29.
+//  Updated for lottie-ios 4.5.0
 
 import UIKit
 import Foundation
@@ -7,20 +7,23 @@ import Lottie
 
 @objc class Dynamic: NSObject {
 
-  @objc func createAnimationView(rootView: UIView, lottieName: String) -> AnimationView {
-    let animationView = AnimationView(name: lottieName)
+  @objc func createAnimationView(rootView: UIView, lottieName: String) -> LottieAnimationView {
+    // Создаем анимацию с использованием актуального API
+    let animationView = LottieAnimationView(name: lottieName)
     animationView.frame = rootView.frame
     animationView.center = rootView.center
-    animationView.backgroundColor = UIColor.white;
-    return animationView;
+    animationView.backgroundColor = UIColor.white
+    // Правильные настройки для версии 4.5.0
+    animationView.contentMode = .scaleAspectFit
+    // Дополнительные улучшения
+    animationView.loopMode = .playOnce
+    return animationView
   }
 
-  @objc func play(animationView: AnimationView) {
-    animationView.play(
-      completion: { (success) in
-        RNSplashScreen.setAnimationFinished(true)
-      }
-    );
+  @objc func play(animationView: LottieAnimationView) {
+    // Воспроизведение с использованием актуального API
+    animationView.play { completed in
+      RNSplashScreen.setAnimationFinished(true)
+    }
   }
 }
-
